@@ -40,3 +40,17 @@ else
         echo "skip: ANALOG strict ASan/UBSan (compiler/runtime unavailable)"
     fi
 fi
+
+# LOFI negative quantisation: unchanged samples, with strict sanitizer coverage.
+${CC:-cc} -O2 -std=c99 -Wall -Wextra -Wno-unused-function -Wno-unused-parameter -Ibuild \
+    -o build/lofi_signed_test tests/lofi_signed_test.c
+build/lofi_signed_test
+if [ "${SANITIZE:-1}" = 0 ]; then
+    echo "skip: LOFI strict ASan/UBSan (SANITIZE=0)"
+elif ${CC:-cc} $SAN -o build/san_probe build/san_probe.c 2>/dev/null && build/san_probe; then
+    ${CC:-cc} $SAN -std=c99 -Wno-unused-function -Wno-unused-parameter -Ibuild \
+        -o build/lofi_signed_strict tests/lofi_signed_test.c
+    build/lofi_signed_strict
+else
+    echo "skip: LOFI strict ASan/UBSan (compiler/runtime unavailable)"
+fi

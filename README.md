@@ -83,3 +83,8 @@ MIT, see [LICENSE](LICENSE). Copyright (c) 2026 Leo Kuroshita (@kurogedelic), HÃ
 Instruments.
 
 Changes to these files are welcome as pull requests here, under the MIT licence.
+
+The LOFI signed-quantisation regression sweeps all five chip and waveform modes,
+crush values around the second quantiser's threshold, three pitches/duties and
+amplitude ramps. Its 1,800-case audio hash is frozen from the pre-fix baseline;
+strict ASan/UBSan runs without exclusions when available.
