@@ -41,7 +41,7 @@ static track_t trk[NPART];
 
 Each engine is an `engine_t` (`ENG_ANALOG`, `ENG_LOFI`, `ENG_TRIO`, `ENG_WHEEL`, `ENG_NOISE`, `ENG_PHASE`):
 its eight parameters with their ranges and names, its presets, and the functions the host calls
-per voice (`note_on`, `render`) and per block (`block`, `amp`). `render` adds one block (at most
+per voice (`note_on`, `render`) and per block (`block`, `amp`, and `post`, an optional effect over the whole part after its voices). `render` adds one block (at most
 `CTL` = 32 samples) of a voice to a buffer. The header documents the rest of the contract: the
 host's track and parameter numbers, how a voice is started and retriggered, and the envelope
 fields that LOFI and WHEEL read.

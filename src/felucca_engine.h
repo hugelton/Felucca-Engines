@@ -160,6 +160,10 @@ typedef struct {                 /* an engine (engines.c ENGINES[]; the eng_*.c 
      * in, 0 = none: a part plays one engine at a time, so they share one region; on a switch to the engine
      * (after the old one's fade) the region is zeroed when another engine had it (eng_mem_claim) */
     uint16_t mem;
+    /* optional: once per block and part, after its voices, on their sum in out (n samples): an effect of the engine's
+     * own over the whole part (an echo, a resonator), also with no voice sounding; returns 1 while it still sounds
+     * (the host keeps mixing the part), 0 = silent */
+    uint32_t (*post)(struct track *t, int32_t *out, uint32_t n);
 } engine_t;
 
 #endif /* FELUCCA_ENGINE_H */
