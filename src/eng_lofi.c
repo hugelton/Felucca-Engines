@@ -197,7 +197,11 @@ static void lofi_render(track_t *t, voice_t *v, int32_t *out, uint32_t n, const 
             held = s;
         }
         ph0 += inc;
-        lp += mulq15(held - lp, lpk);
+        {   /* mulq15(held - lp, lpk) split in two, so it fits 32 bits: a pulse less its mean reaches +57343 and WAVE
+             * can change under a sounding voice (held - lp past +-65536); where mulq15 fits, the same bits */
+            int32_t d = held - lp;
+            lp += (d >> 15) * lpk + (((d & 0x7FFF) * lpk) >> 15);
+        }
         out[i] += voice_amp(lp, m, i);
     }
     v->ph[0] = ph0;
