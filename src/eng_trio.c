@@ -367,6 +367,7 @@ static const engine_t ENG_TRIO = {
     },
     .presets = TRIO_PRESETS,
     .npresets = NELEM(TRIO_PRESETS),
+    .keep = 0x03,                /* the filter: a retrigger does not restart it (#321) */
     .note_on = trio_note_on,
     .render = trio_render,
     .knob = {P_E5, P_E6, P_E7, P_E1},
