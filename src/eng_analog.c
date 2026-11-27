@@ -169,10 +169,10 @@ static inline __attribute__((always_inline)) void analog_osc(track_t *t, voice_t
         {   /* filter, linear up to half scale, then a soft knee (only resonance peaks saturate); soft_knee()
              * written out: the host compiler makes this loop 1 % slower with the call */
             int32_t y = ft ? analog_tap(&flt, fk, s >> 1, &ic1, &ic2, ft) : tsvf_lp(&flt, s >> 1, &ic1, &ic2);
-            int32_t a = y < 0 ? -y : y;
-            if (a > 16000) {
-                a = 16000 + (softclip((a - 16000) * 2) >> 1);
-                y = y < 0 ? -a : a;
+            int32_t ay = y < 0 ? -y : y;
+            if (ay > 16000) {
+                ay = 16000 + (softclip((ay - 16000) * 2) >> 1);
+                y = y < 0 ? -ay : ay;
             }
             s = y * 2;                          /* soft knee bounds y; multiplication permits negatives */
         }
